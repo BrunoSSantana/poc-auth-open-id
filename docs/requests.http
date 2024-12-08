@@ -1,0 +1,29 @@
+@openidClient=http://localhost:4000
+@resourceServer=http://localhost:5000
+@idPHost=http://localhost:3000
+@code=r14z4k
+@access_token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6Im9wZW5pZCBwcm9maWxlIGVtYWlsIn0.IVgV0cIgquItAr63lHMdLdc7psA79nhFJnXajs2FiIgBQIrAr6vmk_D0FGyv4_owRshwPW33CPybEai06MRyFNf6BZGHwqDg0sSxWQUBW8yy5QfNz85pp9-uikXZeb4l-PSEKx4lirOLQBsfXWc-toAluo8qbQL4DPAuqLulXQ31DvqlYB447n2w7xzdq3o83ySW7yjsErLg6OO--9MHolKlvkQ_WMRcG6zEsLCQkNb_I4utkrgSMiTrDlXJLTVH_6MsE5pwdtE_9augM_DzZENNAlBhUl0nmYVoHNgZXUBqQX3ockmq6PQ9m1T1eTqfxODr92jVlTuojHGQBLU-wA
+
+### 1. Redirecionar o usuário para o OpenID Provider (simulação da URL gerada pelo Client)
+GET {{idPHost}}/authorize?response_type=code&client_id=client-id&redirect_uri=http://localhost:4000/callback&scope=openid%20profile%20email
+
+### 2. Trocar o Código de Autorização por Tokens
+POST {{idPHost}}/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=authorization_code
+&code={{code}}
+&redirect_uri=http://localhost:4000/callback
+&client_id=client-id
+&client_secret=client-secret
+
+### 3. Obter Informações do Usuário com o Access Token
+GET {{idPHost}}/userinfo
+Authorization: Bearer {{access_token}}
+
+### 4. Acessar o Recurso Protegido no Resource Server
+GET {{resourceServer}}/api/protected
+Authorization: Bearer {{access_token}}
+
+###
+GET http://localhost:4000

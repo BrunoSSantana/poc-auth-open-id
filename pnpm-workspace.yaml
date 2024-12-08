@@ -1,0 +1,4 @@
+packages:
+  - oidc-provider
+  - openid-client
+  - resource-server
