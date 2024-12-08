@@ -4,5 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "pnpm -r run dev"
+  },
+  "dependencies": {
+    "@types/node": "22.10.1",
+    "oidc-provider": "8.6.0"
   }
 }
