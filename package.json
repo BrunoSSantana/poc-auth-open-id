@@ -7,6 +7,9 @@
   },
   "dependencies": {
     "@types/node": "22.10.1",
-    "oidc-provider": "8.6.0"
+    "dotenv": "16.4.7",
+    "jose": "5.9.6",
+    "oidc-provider": "8.6.0",
+    "openid-client": "6.1.4"
   }
 }

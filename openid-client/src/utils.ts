@@ -30,7 +30,7 @@ export async function decodeGoogleAccessToken(token: string) {
 	);
 
 	if (!response.ok) {
-		throw new Error("Token not found");
+		throw new Error("Erro ao decodificar o token");
 	}
 
 	return response.json();
@@ -61,9 +61,11 @@ export async function handleOAuthCallback(c: Context) {
 
 		// Troca de código por tokens
 		const tokens = await exchangeCodeForTokens(idpConfig, code);
+		console.log({ tokens });
 
 		// Buscar perfil do usuário (se aplicável)
 		const userProfile = await fetchUserProfile(idpConfig, tokens.access_token);
+		console.log({ userProfile });
 
 		// Verificação e decodificação de tokens
 		const idTokenHeader = jose.decodeProtectedHeader(tokens.id_token);
@@ -71,6 +73,7 @@ export async function handleOAuthCallback(c: Context) {
 			idpName !== "google"
 				? jose.decodeProtectedHeader(tokens.access_token)
 				: await decodeGoogleAccessToken(tokens.access_token);
+		console.log({ accessTokenHeader });
 
 		const jwks = await getJWKs(idpName);
 
